@@ -11,8 +11,7 @@ const App = ()=>{
     return(
         <>
         <HelmetProvider>
-            <BrowserRouter>
-                <Button >{state.value}</Button>
+            <BrowserRouter>                
                 <Router /> 
             </BrowserRouter>
         </HelmetProvider>        
