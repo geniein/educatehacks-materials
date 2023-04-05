@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import Header from '../../components/Header';
 import Nav from '../../components/Nav';
 
 const APP_BAR_MOBILE = 64;
@@ -31,6 +32,7 @@ const MainLayout = () =>{
 
     return(
         <Layout>
+            <Header onOpenNav={() => setOpen(true)} />
             <Nav openNav={open} onCloseNav={() => setOpen(false)} />
             <Main>
                 <Outlet/>
