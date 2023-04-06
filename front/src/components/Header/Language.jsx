@@ -6,12 +6,12 @@ const LANGS = [
   {
     value: 'en',
     label: 'English',
-    icon: '/assets/icons/ic_flag_en.svg',
+    icon: '/assets/locale/en.svg',
   },
   {
     value: 'ko',
     label: 'Korean',
-    icon: '/assets/icons/ic_flag_ko.svg',
+    icon: '/assets/locale/ko.svg',
   }, 
 ];
 
@@ -39,7 +39,7 @@ const Language = () => {
           }),
         }}
       >
-        <img src={LANGS[0].icon} alt={LANGS[0].label} />
+        <img src={LANGS[0].icon} alt={LANGS[0].label} style={{"width": 44, "height": 44}}/>
       </IconButton>
 
       <Popover

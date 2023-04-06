@@ -2,7 +2,7 @@ import React from 'react'
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 import { bgBlur } from '../../utils/cssStyle';
-
+import MenuIcon from '@mui/icons-material/Menu';
 import Searchbar from './Searchbar';
 import Profile from './Profile';
 import Language from './Language';
@@ -43,7 +43,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
             color: 'text.primary',
             display: { lg: 'none' },
           }}
-        >          
+        >
+          <MenuIcon/>          
         </IconButton>
 
         <Searchbar />

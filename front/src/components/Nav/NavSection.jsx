@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { Box, List, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material';
 
@@ -20,12 +19,8 @@ const StyledNavItemIcon = styled(ListItemIcon)({
     alignItems: 'center',
     justifyContent: 'center',
   });
-  
-NavSection.propTypes = {
-  data: PropTypes.array,
-};
 
-export default function NavSection({ data = [], ...other }) {
+const NavSection = ({ data = [], ...other }) => {
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
@@ -37,13 +32,7 @@ export default function NavSection({ data = [], ...other }) {
   );
 }
 
-// ----------------------------------------------------------------------
-
-NavItem.propTypes = {
-  item: PropTypes.object,
-};
-
-function NavItem({ item }) {
+const NavItem = ({ item }) => {
   const { title, path, icon, info } = item;
 
   return (
@@ -66,3 +55,4 @@ function NavItem({ item }) {
     </StyledNavItem>
   );
 }
+export default NavSection 

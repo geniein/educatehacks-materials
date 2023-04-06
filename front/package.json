@@ -28,6 +28,7 @@
     "@babel/core": "^7.21.4",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@faker-js/faker": "^7.6.0",
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.15",

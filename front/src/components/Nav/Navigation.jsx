@@ -6,6 +6,8 @@ import { Avatar, Box, Button, Drawer, Link, Stack, Typography, alpha, styled } f
 import NavSection from './NavSection';
 import Scrollbar from './Scrollbar';
 import useResponsive from '../../hooks/useResponsive';
+// faker
+// import faker from "faker";
 const NAV_WIDTH = 280;
 
 const StyledAccount = styled('div')(({ theme }) => ({
@@ -33,7 +35,7 @@ const Navigation = ({ openNav, onCloseNav }) => {
     <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
-            <Avatar src="" alt="photoURL" />
+            <Avatar src="" alt="" />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>

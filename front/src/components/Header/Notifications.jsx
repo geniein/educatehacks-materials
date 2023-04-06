@@ -15,6 +15,7 @@ import {
   ListItemAvatar,
   ListItemButton,
 } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 const NOTIFICATIONS = [
@@ -92,7 +93,8 @@ const Notifications = () => {
   return (
     <>
       <IconButton color={open ? 'primary' : 'default'} onClick={handleOpen} sx={{ width: 40, height: 40 }}>
-        <Badge badgeContent={totalUnRead} color="error">          
+        <Badge badgeContent={totalUnRead} color="error">                  
+          <NotificationsIcon/>
         </Badge>
       </IconButton>
 
@@ -169,7 +171,7 @@ const Notifications = () => {
 }
 
 const NotificationItem = ({ notification }) =>{
-  const { avatar, title } = renderContent(notification);
+  const { title } = renderContent(notification);
 
   return (
     <ListItemButton
@@ -183,7 +185,7 @@ const NotificationItem = ({ notification }) =>{
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
+        <Avatar sx={{ bgcolor: 'background.neutral' }}></Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={title}
@@ -197,7 +199,7 @@ const NotificationItem = ({ notification }) =>{
               color: 'text.disabled',
             }}
           >            
-            {fToNow(notification.createdAt)}
+            
           </Typography>
         }
       />
