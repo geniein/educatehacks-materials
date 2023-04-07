@@ -6,6 +6,7 @@ import NotFound from './pages/NotFound';
 import React from 'react';
 import User from './pages/User';
 import LoginPage from './pages/Login';
+import Main from './pages/Main';
 const Router = ()=> {
   const routes = useRoutes([        
     {
@@ -14,6 +15,7 @@ const Router = ()=> {
         { element: <Navigate to="/404" />, index: true },
         { path: '/user', element: <User /> },
         { path: '/login', element: <LoginPage /> },
+        { path: '/plan', element: <Main /> },
         { path: '404', element: <NotFound /> },                
         { path: '*', element: <Navigate to="/404" /> },
       ],
