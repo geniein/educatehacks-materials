@@ -9,7 +9,11 @@ const models = require("./models");
 const bodyParser = require("body-parser");
 //session
 const session = require('express-session');
+//passport
 const passport = require('passport');
+const passportConfig = require('./passport'); 
+const userRouter = require("./route/user");
+
 app.use(session({
     secret: "ingenie",
     // store: new redisStore({
@@ -17,11 +21,12 @@ app.use(session({
     //   logErrors: true
     // }),
     resave: false,
-    saveUninitialized: true,
-    cookie: {maxAge:2400*60*60}
+    saveUninitialized: false,
+    // cookie: {maxAge:2400*60*60}
 }));
 app.use(passport.initialize());
 app.use(passport.session()); 
+passportConfig();
 
 const port = process.env.PORT || 8080;
 
@@ -33,7 +38,8 @@ app.use(cors({
     credentials : true
 }));
 
-
+//userRouter
+app.use("/user",userRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
@@ -42,7 +48,7 @@ app.listen(port, () => {
     //   console.log("Drop and re-sync db.");
     // });
     models.sequelize
-    .sync({ force: false })
+    .sync({ force: true })
     .then(
         () => {
         console.log("DB 연결 성공!");

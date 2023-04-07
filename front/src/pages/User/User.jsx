@@ -147,7 +147,7 @@ const User = () =>{
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> User</title>
       </Helmet>
 
       <Container>

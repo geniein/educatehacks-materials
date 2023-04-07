@@ -4,10 +4,6 @@ import Router from './routes';
 import { Button} from '@mui/material'
 import React from 'react';
 const App = ()=>{
-    const state = {
-        value : 'hello world!'
-    }   
-
     return(
         <>
         <HelmetProvider>

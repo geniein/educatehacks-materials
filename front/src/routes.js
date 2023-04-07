@@ -5,16 +5,19 @@ import MainLaoyout from './layouts/main';
 import NotFound from './pages/NotFound';
 import React from 'react';
 import User from './pages/User';
-import LoginPage from './pages/Login';
+import Login from './pages/Login';
 import Main from './pages/Main';
 const Router = ()=> {
-  const routes = useRoutes([        
+  const routes = useRoutes([
+    {
+      path: 'login',
+      element: <Login />,
+    },
     {
       element: <MainLaoyout />,
       children: [
-        { element: <Navigate to="/404" />, index: true },
-        { path: '/user', element: <User /> },
-        { path: '/login', element: <LoginPage /> },
+        { element: <Navigate to="/login" />, index: true },
+        { path: '/user', element: <User /> },        
         { path: '/plan', element: <Main /> },
         { path: '404', element: <NotFound /> },                
         { path: '*', element: <Navigate to="/404" /> },

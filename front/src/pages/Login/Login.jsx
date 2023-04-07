@@ -2,9 +2,9 @@ import { Helmet } from 'react-helmet-async';
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
-import GoogleIcon from '@mui/icons-material/Google';
 import LoginForm  from './LoginForm';
-import React from 'react';
+import React, { useState } from 'react';
+import SignupForm from './SignupForm';
 
 const StyledRoot = styled('div')(({ theme }) => ({
     display: 'flex'
@@ -33,10 +33,9 @@ const StyledContent = styled('div')(({ theme }) => ({
 //   padding: theme.spacing(12, 0),
 }));
 
-// ----------------------------------------------------------------------
-
 const Login = () =>{
   const mdUp = useResponsive('up', 'md');
+  const [form, setForm] = useState("login");
 
   return (
     <>
@@ -46,36 +45,8 @@ const Login = () =>{
 
       <StyledRoot>        
         <Container maxWidth="sm">
-          <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Sign in
-            </Typography>
-
-            <Typography variant="body2" sx={{ mb: 5 }}>
-              Don’t have an account? {''}
-              <Link variant="subtitle2">Get started</Link>
-            </Typography>
-
-            <Stack direction="row" spacing={2}>
-              <Button size="large" color="inherit" variant="outlined">
-                <GoogleIcon color="#DF3E30" width={22} height={22} />
-              </Button>
-
-              <Button size="large" color="inherit" variant="outlined">
-              </Button>
-
-              <Button size="large" color="inherit" variant="outlined">
-              </Button>
-            </Stack>
-
-            <Divider sx={{ my: 3 }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                OR
-              </Typography>
-            </Divider>
-
-            <LoginForm />
-            {/* <SignupForm /> */}
+          <StyledContent>                        
+            {form === "login" ? <LoginForm setForm={setForm}/>: <SignupForm setForm={setForm}/>}                  
           </StyledContent>
         </Container>
       </StyledRoot>
@@ -83,4 +54,4 @@ const Login = () =>{
   );
 }
 
-export default Login 
+export default Login

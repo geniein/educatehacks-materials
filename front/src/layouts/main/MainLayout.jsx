@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../../components/Header';
 import Nav from '../../components/Nav';
+import useSWR from 'swr';
+import fetcher from '../../utils/fetcher';
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -29,7 +31,8 @@ const Main = styled('div')(({theme})=>({
 
 const MainLayout = () =>{
     const [open, setOpen] = useState(false);
-
+    const { data: userData, error, revalidate, mutate } = useSWR('http://localhost:8080/user/user', fetcher);
+    console.log(userData);
     return(
         <Layout>
             <Header onOpenNav={() => setOpen(true)} />
