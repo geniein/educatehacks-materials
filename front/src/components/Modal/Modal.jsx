@@ -68,7 +68,7 @@ const Modal = ({openModal, onCloseModal, modalFlag, setModalFlag}) => {
         <ModalBackdrop onClick={handleClickOutside} ref={modalRef}>
           {/* <Box sx={{ boxShadow: 3}} style={{width: '80%', height: '80%'}}> */}
           <ModalView >
-          {modalFlag.flag =="VIEW" ? <View/> : <Post/>}
+          {modalFlag.flag =="VIEW" ? <View viewId={modalFlag.id}/> : <Post/>}
           
           </ModalView>
           {/* </Box> */}

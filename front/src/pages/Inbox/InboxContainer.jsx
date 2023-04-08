@@ -27,7 +27,6 @@ import config from '../../utils/config';
 import InboxHead from './InboxHead';
 import inbox from '../../mock/inbox';
 import { Context } from '../../utils/contextProvider';
-import InboxContainer from './InboxContainer';
 // import Modal from '../../components/Modal/Modal';
 
 // ----------------------------------------------------------------------
@@ -71,7 +70,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const Inbox = () =>{
+const InboxContainer = ({inboxTitle, inboxType, inboxState}) =>{
 
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState(0);
@@ -81,7 +80,8 @@ const Inbox = () =>{
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [inBoxList, setInBoxList] = useState([]);
-  const [inBoxListRender, setInBoxListRender] = useState(false);
+  //useContext
+  const { inBoxListRender, setInBoxListRender } = useContext(Context);  
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -136,15 +136,20 @@ const Inbox = () =>{
   };
   //hooks
   useEffect(()=>{
+    console.log(inboxTitle);
     const server = config.server+"/inbox/getlist";
+    const data = {
+        type: inboxType,
+        state: inboxState,
+    }
     
     axios
-    .get(server)
-    .then((res)=>{         
+    .post(server,data,{withCredentials:true})
+    .then((res)=>{
         if(res.data)setInBoxList(res.data);        
     })
     
-  },[])
+  },[inBoxListRender])
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - inBoxList.length) : 0;
 
@@ -167,23 +172,108 @@ const Inbox = () =>{
   }
 
   return (
-    <>
-      <Helmet>
-        <title> Inbox</title>
-      </Helmet>
+    <>     
+      <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          Inbox
-          </Typography>
-          <Button variant="contained" startIcon={<AddIcon/>} onClick={onClickPostModal}>
-            New Post
-          </Button>         
+          {inboxTitle}
+          </Typography>             
         </Stack>
-      <InboxContainer inboxTitle={"NOTICE"} inboxType={"NOTICE"} inboxState={"UNCHECKED"}/>
-      <InboxContainer inboxTitle={"Not confirmed yet"} inboxType={"MESSAGE"} inboxState={"UNCHECKED"}/>
-      <InboxContainer inboxTitle={"Confirmed"} inboxType={"MESSAGE"} inboxState={"CHECKED"}/>
+        {/* <Modal openModal={showModal} onCloseModal={()=>setShowModal(false)}/> */}
+        <Card>                    
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <InboxHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={inBoxList.length}
+                  numSelected={selected.length}
+                  onRequestSort={handleRequestSort}
+                  onSelectAllClick={handleSelectAllClick}
+                />
+                <TableBody>
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const { id, title, author, content, createdAt} = row;
+                    const selectedUser = selected.indexOf(title) !== -1;
+
+                    return (
+                      <TableRow hover key={id} tabIndex={-1} occupation="checkbox" selected={selectedUser}
+                      onClick={onClickViewModal.bind(this,{id})}>
+                        <TableCell padding="checkbox">
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, title)} />
+                        </TableCell>
+
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>                            
+                            <Typography variant="subtitle2" noWrap>
+                              {title}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell align="left">{author}</TableCell>
+
+                        <TableCell align="left">{createdAt}</TableCell>
+
+                        <TableCell align="left">
+                          
+                        </TableCell>
+
+                        {/* <TableCell align="right">
+                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>                          
+                            <MoreVertIcon/>
+                          </IconButton>
+                        </TableCell> */}
+                      </TableRow>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+
+                {isNotFound && (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <Paper
+                          sx={{
+                            textAlign: 'center',
+                          }}
+                        >
+                          <Typography variant="h6" paragraph>
+                            Not found
+                          </Typography>
+
+                          <Typography variant="body2">
+                            No results found for &nbsp;
+                            <strong>&quot;{filterName}&quot;</strong>.
+                            <br /> Try checking for typos or using complete words.
+                          </Typography>
+                        </Paper>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                )}
+              </Table>
+            </TableContainer>          
+
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={inBoxList.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Card>
+      </Container>
     </>
   );
 }
 
-export default Inbox 
+export default InboxContainer

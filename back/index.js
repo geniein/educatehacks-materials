@@ -14,6 +14,7 @@ const passport = require('passport');
 const passportConfig = require('./passport');
 //router 
 const userRouter = require("./route/user");
+const inboxRouter = require("./route/inbox");
 //upload
 // const upload = multer({
 //   storage: multer.diskStorage({
@@ -49,6 +50,7 @@ app.use(cors({
 
 //userRouter
 app.use("/user",userRouter);
+app.use("/inbox",inboxRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

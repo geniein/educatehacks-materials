@@ -14,7 +14,9 @@ export const Context = createContext({
     modalFlag:{
         flag:''
     },
-    setModalFlag: ()=> {}
+    setModalFlag: ()=> {},
+    inBoxListRender: false,
+    setInBoxListRender: () => {}
 });
 
 const ContextProvider = ({children}) => {
@@ -54,6 +56,15 @@ const ContextProvider = ({children}) => {
         ))            
     }
 
+    const setInBoxListRender = (data) =>{        
+        setState(prevState => (
+            {
+                ...prevState, 
+                inBoxListRender: data
+            }
+        ))            
+    }
+
     const initialState = {
         loggedUser: {},
         loggedIn: false,
@@ -62,12 +73,12 @@ const ContextProvider = ({children}) => {
         showModal: false,
         setShowModal,
         modalFlag: {},
-        setModalFlag
+        setModalFlag,
+        inBoxListRender: false,
+        setInBoxListRender
     }
 
     const [state, setState] = useState(initialState);    
-
-    
 
     return (
         <Context.Provider value={state}>
