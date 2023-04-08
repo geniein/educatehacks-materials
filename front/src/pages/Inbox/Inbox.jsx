@@ -153,7 +153,7 @@ const Inbox = () =>{
   const isNotFound = !filteredUsers.length && !!filterName;
     //Modal
 //   const [showModal, setShowModal] = useState(false);
-    const { showModal, setShowModal, modalFlag, setModalFlag } = useContext(Context);  
+    const { loggedUser, showModal, setShowModal, modalFlag, setModalFlag } = useContext(Context);  
 
   const onClickViewModal = (id, e) =>{    
     e.preventDefault();
@@ -175,9 +175,10 @@ const Inbox = () =>{
           <Typography variant="h4" gutterBottom>
           Inbox
           </Typography>
-          <Button variant="contained" startIcon={<AddIcon/>} onClick={onClickPostModal}>
+          {loggedUser.occupation =="TEACHER" && <Button variant="contained" startIcon={<AddIcon/>} onClick={onClickPostModal}>
             New Post
-          </Button>         
+          </Button> 
+            }        
         </Stack>
       <InboxContainer inboxTitle={"NOTICE"} inboxType={"NOTICE"} inboxState={"UNCHECKED"}/>
       <InboxContainer inboxTitle={"Not confirmed yet"} inboxType={"MESSAGE"} inboxState={"UNCHECKED"}/>

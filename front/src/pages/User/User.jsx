@@ -159,6 +159,7 @@ const User = () =>{
     }
     axios.post(server,data)
     .then((res)=>{
+      console.log(res.data);
       if(res.data){
         setuserListRender(!userListRender);
       }
@@ -210,12 +211,12 @@ const User = () =>{
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, name, occupation, email, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                    const selectedUser = selected.indexOf(id) !== -1;
 
                     return (
                       <TableRow hover key={id} tabIndex={-1} occupation="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, id)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">

@@ -89,6 +89,8 @@ router.post("/verified", async(req, res)=>{
     const isVerified = req.body.isVerified;
     const idList = req.body.selected;    
     let result = 0
+    console.log(isVerified);
+    console.log(idList);
     if(idList.length > 0){
         result = await models.Account.update({isVerified},{
             where: {
