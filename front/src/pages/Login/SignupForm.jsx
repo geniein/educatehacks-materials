@@ -20,12 +20,7 @@ const SignupForm = ({setForm}) => {
   
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-  
-  const handleClick = () => {
-    navigate('/login', { replace: true });
-  };
-
-  
+    
   const onClickSignup = (e) =>{
     e.preventDefault();
     if(password !== passwordConfirm){

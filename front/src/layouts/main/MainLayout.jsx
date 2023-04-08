@@ -47,6 +47,13 @@ const MainLayout = () =>{
             setLoggedIn(true);
         })
     },[]);
+
+    // useEffect(()=>{
+    //     console.log(loggedIn)
+    //     if(!loggedIn){
+    //         navigate("/404");
+    //     }
+    // },[loggedIn])
     
     return(        
         <Layout>

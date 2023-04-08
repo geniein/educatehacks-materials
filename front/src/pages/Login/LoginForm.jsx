@@ -32,7 +32,7 @@ const LoginForm = ({setForm}) => {
     .then((result)=>{      
       if(result.status == 401) return;
       if(result.status == 200) {
-        if(result.data.verify){
+        if(result.data.isVerified){
           setLoggedUser(result.data);
           setLoggedIn(true);
           navigate('/inbox', { replace: true });

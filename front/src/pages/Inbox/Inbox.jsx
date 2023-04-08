@@ -20,23 +20,20 @@ import {
   TablePagination,
   Box,
 } from '@mui/material';
-import UserListHead from './UserListHead';
 //icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-// import userList from '../../mock/user';
 import axios from 'axios';
 import config from '../../utils/config';
+import InboxHead from './InboxHead';
+import inbox from '../../mock/inbox';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'email', label: 'Email', alignRight: false },
-  { id: 'occupation', label: 'Occupation', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },  
+  { id: 'title', label: 'Title', alignRight: false },
+  { id: 'author', label: 'Author', alignRight: false },
+  { id: 'date', label: 'Date', alignRight: false },  
   { id: '' },
 ];
 
@@ -72,7 +69,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const User = () =>{
+const Inbox = () =>{
 
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState(0);
@@ -81,8 +78,8 @@ const User = () =>{
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [userList, setUserList] = useState([]);
-  const [userListRender, setuserListRender] = useState(false);
+  const [inBoxList, setInBoxList] = useState([]);
+  const [inBoxListRender, setInBoxListRender] = useState(false);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -100,7 +97,7 @@ const User = () =>{
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = userList.map((n) => n.name);
+      const newSelecteds = inBoxList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -135,116 +132,74 @@ const User = () =>{
     setPage(0);
     setFilterName(event.target.value);
   };
-
-  const onClickVerifed = (e) => {
-    e.preventDefault();
-    const server = config.server+"/user/verified";
-    const data = {
-      selected,
-      isVerified: true
-    }
-    axios.post(server,data)
-    .then((res)=>{
-      if(res.data){
-        setuserListRender(!userListRender);
-      }
-    })
-  }
-  const onClickUnverifed = (e) => {
-    e.preventDefault();
-    const server = config.server+"/user/verified";
-    const data = {
-      selected,
-      isVerified: false
-    }
-    axios.post(server,data)
-    .then((res)=>{
-      if(res.data){
-        setuserListRender(!userListRender);
-      }
-    })
-  }
   //hooks
   useEffect(()=>{
-    const server = config.server + "/user/users";
-    axios.get(server)
-    .then((res)=>{      
-      setUserList(res.data);
-    })
-  },[userListRender]);
+    setInBoxList(inbox);
+  },[])
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - inBoxList.length) : 0;
 
-  const filteredUsers = applySortFilter(userList, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(inBoxList, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
   return (
     <>
       <Helmet>
-        <title> User</title>
+        <title> Inbox</title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
-          </Typography>
-          <Button variant="contained" startIcon={<AddIcon/>}>
-            New User
-          </Button>
+          Inbox
+          </Typography>         
         </Stack>
 
         <Card>                    
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <InboxHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={userList.length}
+                  rowCount={inBoxList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, occupation, email, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                    const { id, title, author, content, date} = row;
+                    const selectedUser = selected.indexOf(title) !== -1;
 
                     return (
                       <TableRow hover key={id} tabIndex={-1} occupation="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, title)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                          <Stack direction="row" alignItems="center" spacing={2}>                            
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {title}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{email}</TableCell>
+                        <TableCell align="left">{author}</TableCell>
 
-                        <TableCell align="left">{occupation}</TableCell>
+                        <TableCell align="left">{date.toDateString()}</TableCell>
 
                         <TableCell align="left">
-                          {/* <Button sx={{ p: 2 }}>{isVerified ? 'Yes' : 'No'}</Button>*/}
-                          {isVerified ? 'Yes' : 'No'}
+                          
                         </TableCell>
 
-                        {/* <TableCell align="left">
-                          <Box color={(status === 'banned' && 'error') || 'success'}>{status}</Box>
-                        </TableCell> */}
-
-                        <TableCell align="right">
+                        {/* <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>                          
                             <MoreVertIcon/>
                           </IconButton>
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     );
                   })}
@@ -284,7 +239,7 @@ const User = () =>{
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={userList.length}
+            count={inBoxList.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -292,37 +247,8 @@ const User = () =>{
           />
         </Card>
       </Container>
-
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem onClick={onClickVerifed}>
-          <EditIcon sx={{ mr: 2 }} />
-          Verify
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }} onClick={onClickUnverifed} >
-          <DeleteIcon sx={{ mr: 2 }} />
-          Unverified
-        </MenuItem>
-      </Popover>
     </>
   );
 }
 
-export default User 
+export default Inbox 

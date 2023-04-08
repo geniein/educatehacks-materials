@@ -2,14 +2,12 @@ const express = require('express')
 const router = express.Router()
 const models = require("../models");
 const passport = require('passport');
+const { Op } = require('sequelize');
 
 //login
 router.post("/login", async (req,res, next) =>{  
 //passport
     passport.authenticate('local',(err, user, info)=>{ 
-        console.log(err);     
-        console.log(user); 
-        console.log(info);  
         if(err){
             console.log(err);
             return next(err);
@@ -27,17 +25,20 @@ router.post("/login", async (req,res, next) =>{
     })(req,res,next);
 });
 //get user
-router.get("/user", async (req,res, next) =>{
-    console.log(`session: ${req.session.user}`);
-    console.log(`isAuthenticated: ${req.isAuthenticated()}`)    
-    var user_info = null;
-    if(!req.user){
-        user_info = [];
-    }else{
-        user_info = JSON.parse(JSON.stringify(req.user));
+router.get("/auth", async (req,res, next) =>{    
+    // console.log("auth: ", req.isAuthenticated());    
+    if(req.isAuthenticated()){
+        res.send(req.user);
     }
-    res.json(user_info);
 });
+//session check
+router.get('/session',(req,res)=>{
+    res.json({
+        "req.session": req.session,
+        "req.user": req.user,
+        "req.passport": req.passport
+    })   
+})
 //
 router.post('/logout', (req,res)=>{
     console.log('logout');
@@ -51,24 +52,20 @@ router.post('/logout', (req,res)=>{
     }  
 });
 
-router.get('/auth', (req,res)=>{
-    if(req.isAuthenticated()){
-         res.send(req.user);
-     }    
-});
-
 //signup
 router.post('/signup', async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;  
     const occupation = req.body.occupation;
+    const isVerified = occupation == "TEACHER" ? true: false;
     models.Account.create(
         {
             email,
             password,
             name,
-            occupation
+            occupation,
+            isVerified
         }
     ).then((result, err)=>{
         //success
@@ -80,6 +77,28 @@ router.post('/signup', async (req, res) => {
             res.send(false);
         }
     });     
+})
+
+//get user list
+router.get("/users", async (req, res)=>{
+    const userList = await models.Account.findAll();    
+    res.json(userList);
+})
+// user verified
+router.post("/verified", async(req, res)=>{
+    const isVerified = req.body.isVerified;
+    const idList = req.body.selected;    
+    let result = 0
+    if(idList.length > 0){
+        result = await models.Account.update({isVerified},{
+            where: {
+                id: {
+                    [Op.or]: idList
+                }
+            }
+        });   
+    }    
+    res.json(result);
 })
 
 module.exports = router

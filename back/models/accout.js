@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
       },
       occupation: {
-        type: DataTypes.STRING(2),
+        type: DataTypes.STRING(20),
         allowNull: false,
       },
       password: {
@@ -20,7 +20,11 @@ module.exports = function (sequelize, DataTypes) {
       name: {
         type: DataTypes.STRING(30),
         allowNull: false,
-      }      
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },      
     });
     return account;
   };

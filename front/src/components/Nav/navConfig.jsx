@@ -5,8 +5,8 @@ import Note from '@mui/icons-material/Note';
 import React from 'react';
 const navConfig = [
   {
-    title: 'main',
-    path: '/main',
+    title: 'inbox',
+    path: '/inbox',
     icon: <AllInboxIcon/>,
   },
   {

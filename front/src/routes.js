@@ -7,6 +7,7 @@ import React from 'react';
 import User from './pages/User';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import Inbox from './pages/Inbox';
 const Router = ()=> {
   const routes = useRoutes([
     {
@@ -19,8 +20,9 @@ const Router = ()=> {
         { element: <Navigate to="/login" />, index: true },
         { path: '/user', element: <User /> },        
         { path: '/plan', element: <Main /> },
+        { path: '/inbox', element: <Inbox /> },
         { path: '404', element: <NotFound /> },                
-        { path: '*', element: <Navigate to="/user" /> },
+        { path: '*', element: <Navigate to="/inbox" /> },
       ],
     }  
   ]);
