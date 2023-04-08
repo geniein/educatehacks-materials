@@ -33,7 +33,7 @@ const InboxHead =({
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
+            onChange={onSelectAllClick}            
           />
         </TableCell>
         {headLabel.map((headCell) => (

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Card,
   Table,
@@ -21,12 +21,13 @@ import {
   Box,
 } from '@mui/material';
 //icon
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import config from '../../utils/config';
 import InboxHead from './InboxHead';
 import inbox from '../../mock/inbox';
+import { Context } from '../../utils/contextProvider';
+// import Modal from '../../components/Modal/Modal';
 
 // ----------------------------------------------------------------------
 
@@ -142,6 +143,19 @@ const Inbox = () =>{
   const filteredUsers = applySortFilter(inBoxList, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
+    //Modal
+//   const [showModal, setShowModal] = useState(false);
+    const { showModal, setShowModal, modalFlag, setModalFlag } = useContext(Context);  
+
+  const onClickViewModal = (e, id) =>{    
+    setShowModal(!showModal);
+    setModalFlag({flag:"VIEW"});
+  }
+
+  const onClickPostModal = (e) =>{    
+    setShowModal(!showModal);
+    setModalFlag({flag:"POST"});
+  }
 
   return (
     <>
@@ -153,9 +167,12 @@ const Inbox = () =>{
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           Inbox
-          </Typography>         
+          </Typography>
+          <Button variant="contained" startIcon={<AddIcon/>} onClick={onClickPostModal}>
+            New Post
+          </Button>         
         </Stack>
-
+        {/* <Modal openModal={showModal} onCloseModal={()=>setShowModal(false)}/> */}
         <Card>                    
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -174,7 +191,8 @@ const Inbox = () =>{
                     const selectedUser = selected.indexOf(title) !== -1;
 
                     return (
-                      <TableRow hover key={id} tabIndex={-1} occupation="checkbox" selected={selectedUser}>
+                      <TableRow hover key={id} tabIndex={-1} occupation="checkbox" selected={selectedUser}
+                      onClick={onClickViewModal.bind(this,{id})}>
                         <TableCell padding="checkbox">
                           <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, title)} />
                         </TableCell>

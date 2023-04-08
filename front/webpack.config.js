@@ -4,7 +4,7 @@ module.exports = {
     name: 'react-projec',
     mode: 'development',
     resolve:{   
-        extensions:['.js','.jsx']
+        extensions:['.js','.jsx','.css']
     },
     entry:{
         app:['./src/index']
@@ -20,7 +20,18 @@ module.exports = {
                     '@babel/preset-react' //JSX를 사용하기 위해
                 ]
             }
-        }]        
+        },
+        {
+        	test: /\.css$/,
+            use: [{
+                    loader: 'style-loader'
+                },
+                {
+                    loader: 'css-loader'
+                }
+            ]
+        }
+    ]        
     },
     devServer:{
         static:{

@@ -4,10 +4,9 @@ import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import Nav from '../../components/Nav';
-import useSWR from "swr"
-import fetcher from '../../utils/fetcher';
 import axios from 'axios';
 import { Context } from '../../utils/contextProvider';
+import Modal from '../../components/Modal/index';
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -35,10 +34,7 @@ const MainLayout = () =>{
     const [open, setOpen] = useState(false);    
     const navigate = useNavigate();
 
-    // const { data: userData, error, revalidate, mutate } = useSWR('http://localhost:8080/user/auth', fetcher, {
-    //     dedupingInterval: 2000, // 2초
-    // });
-    const { loggedUser, loggedIn, setLoggedUser, setLoggedIn } = useContext(Context);  
+    const { setLoggedUser, setLoggedIn, showModal, setShowModal, modalFlag, setModalFlag } = useContext(Context);  
     
     useEffect(()=>{        
         axios.get("http://localhost:8080/user/auth",{withCredentials:true})
@@ -58,7 +54,8 @@ const MainLayout = () =>{
     return(        
         <Layout>
             <Header onOpenNav={() => setOpen(true)} />
-            <Nav openNav={open} onCloseNav={() => setOpen(false)} />
+            <Nav openNav={open} onCloseNav={() => setOpen(false)} />            
+            <Modal openModal={showModal} onCloseModal={setShowModal} modalFlag={modalFlag} setModalFlag={setModalFlag}/>
             <Main>
                 <Outlet/>
             </Main>
