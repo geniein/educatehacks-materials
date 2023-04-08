@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material'; 
-import account from '../../mock/account';
+import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover, Button } from '@mui/material'; 
+import axios from 'axios';
+import config from '../../utils/config';
+import { useNavigate } from 'react-router-dom';
+import { Context } from '../../utils/contextProvider';
 
 const MENU_OPTIONS = [
   {
@@ -19,6 +22,14 @@ const MENU_OPTIONS = [
 ];
 
 const Profile = () => {
+  //hooks
+  const [user, setUser] = useState("");
+  const navigate = useNavigate();
+  const { loggedUser, loggedIn, setLoggedUser, setLoggedIn } = useContext(Context);  
+  useEffect(()=>{
+  },[loggedUser, loggedIn])
+
+  //session
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -28,6 +39,15 @@ const Profile = () => {
   const handleClose = () => {
     setOpen(null);
   };
+  const onClickLogout = (e) =>{
+    e.preventDefault();
+    const server = config.server+'/user/logout'
+    axios.post(server,{},{ withCredentials : true })
+    .then((res)=>{
+      setLoggedUser({});
+      setLoggedIn(false);
+    })
+  }
 
   return (
     <>
@@ -48,7 +68,7 @@ const Profile = () => {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={user.photoURL} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -70,12 +90,13 @@ const Profile = () => {
           },
         }}
       >
+        {loggedIn && <>
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {loggedUser.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {loggedUser.email}
           </Typography>
         </Box>
 
@@ -91,9 +112,18 @@ const Profile = () => {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={onClickLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
+        </>
+      }
+      {!loggedIn && <Button sx={{ my: 1.5, px: 2.5 }}
+      onClick={()=>navigate('/login')}>
+          <Typography variant="subtitle2" noWrap>
+            Need a login
+          </Typography>         
+        </Button>
+        }
       </Popover>
     </>
   );

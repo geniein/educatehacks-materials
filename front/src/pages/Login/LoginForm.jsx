@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Box, Button, Typography, Divider } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -7,11 +7,12 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import axios from 'axios';
 import config from '../../utils/config';
+import { Context } from '../../utils/contextProvider';
 
 const LoginForm = ({setForm}) => {
 
   const navigate = useNavigate();
-
+  const { loggedUser, loggedIn, setLoggedUser, setLoggedIn } = useContext(Context);
   //form
   const [email, setEmail] = useState("");  
   const [password, setPassword] = useState("");
@@ -25,12 +26,20 @@ const LoginForm = ({setForm}) => {
       email,
       password
     }
+    //login session
     axios
-    .post(server,data)
-    .then((result)=>{
-      console.log(result);
+    .post(server,data,{ withCredentials : true })
+    .then((result)=>{      
       if(result.status == 401) return;
-      if(result.status == 200) navigate('/404', { replace: true });
+      if(result.status == 200) {
+        if(result.data.verify){
+          setLoggedUser(result.data);
+          setLoggedIn(true);
+          navigate('/inbox', { replace: true });
+        }else {
+          alert("Not verified");
+        }        
+      }
     })
   }
 

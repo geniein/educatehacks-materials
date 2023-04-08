@@ -20,7 +20,7 @@ const Router = ()=> {
         { path: '/user', element: <User /> },        
         { path: '/plan', element: <Main /> },
         { path: '404', element: <NotFound /> },                
-        { path: '*', element: <Navigate to="/404" /> },
+        { path: '*', element: <Navigate to="/user" /> },
       ],
     }  
   ]);

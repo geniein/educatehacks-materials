@@ -14,7 +14,7 @@ const SignupForm = ({setForm}) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [occupation, setOccupation] = useState("P");
+  const [occupation, setOccupation] = useState("PARENT");
 
   const [showMessage, setShowMessage] = useState("");
   
@@ -115,8 +115,8 @@ const SignupForm = ({setForm}) => {
           label="occupation"
           onChange={(e)=>setOccupation(e.target.value)}          
         >
-          <MenuItem value={"T"}>Teacher</MenuItem>
-          <MenuItem value={"P"}>Parent</MenuItem>          
+          <MenuItem value={"TEACHER"}>Teacher</MenuItem>
+          <MenuItem value={"PARENT"}>Parent</MenuItem>          
         </Select>
       </FormControl>
       </Stack>      
