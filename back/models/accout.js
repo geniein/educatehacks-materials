@@ -1,17 +1,30 @@
 module.exports = function (sequelize, DataTypes) {
     const account = sequelize.define("Account", {
-      user_id: {
+      id:{
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      email: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+      occupation: {
         type: DataTypes.STRING(20),
         allowNull: false,
       },
-      pwd: {
-        type: DataTypes.STRING(10),
+      password: {
+        type: DataTypes.STRING(20),
         allowNull: false,
       },
-      nickname: {
+      name: {
         type: DataTypes.STRING(30),
         allowNull: false,
-      }      
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },      
     });
     return account;
   };

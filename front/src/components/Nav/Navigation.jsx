@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import navConfig from './navConfig';
 import account from '../../mock/account'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Drawer, Link, Stack, Typography, alpha, styled } from '@mui/material';
 import NavSection from './NavSection';
 import Scrollbar from './Scrollbar';
 import useResponsive from '../../hooks/useResponsive';
-// faker
-// import faker from "faker";
+import { Context } from '../../utils/contextProvider';
+
 const NAV_WIDTH = 280;
 
 const StyledAccount = styled('div')(({ theme }) => ({
@@ -19,14 +19,18 @@ const StyledAccount = styled('div')(({ theme }) => ({
 }));
 
 const Navigation = ({ openNav, onCloseNav }) => {
+  //session  
+    const [user, setUser] = useState("")
+    const { loggedUser, loggedIn, setLoggedUser, setLoggedIn } = useContext(Context);  
+    const navigate = useNavigate();
     const { pathname } = useLocation();
     const isDesktop = useResponsive('up', 'lg');
 
     useEffect(() => {
         if (openNav) {
           onCloseNav();
-        }        
-      }, [pathname]);
+        }             
+      }, [pathname, loggedUser, loggedIn]);
 
   const render = (
     <>       
@@ -37,19 +41,26 @@ const Navigation = ({ openNav, onCloseNav }) => {
           <StyledAccount>
             <Avatar src="" alt="" />
 
-            <Box sx={{ ml: 2 }}>
+            {loggedIn &&<Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {loggedUser.name}                
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {loggedUser.occupation}
               </Typography>
             </Box>
+            }
+            {!loggedIn && <Button sx={{ ml: 2 }}
+                onClick={()=>navigate('/login')}>
+              <Typography variant="subtitle2" noWrap>
+                Need a login
+              </Typography>    
+            </Button>}
           </StyledAccount>
         </Link>
       </Box>
-      <NavSection data={navConfig} /> 
+      {loggedIn&& <NavSection data={navConfig} /> }
 
       <Box sx={{ flexGrow: 1 }} />
 

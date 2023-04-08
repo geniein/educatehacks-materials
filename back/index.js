@@ -9,19 +9,32 @@ const models = require("./models");
 const bodyParser = require("body-parser");
 //session
 const session = require('express-session');
+//passport
 const passport = require('passport');
+const passportConfig = require('./passport');
+//router 
+const userRouter = require("./route/user");
+//upload
+// const upload = multer({
+//   storage: multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, "uploads/");
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, file.originalname);
+//     },
+//   }),
+// });
+
 app.use(session({
-    secret: "ingenie",
-    // store: new redisStore({
-    //   client: client,
-    //   logErrors: true
-    // }),
+    secret: "ingenie",   
     resave: false,
-    saveUninitialized: true,
-    cookie: {maxAge:2400*60*60}
+    saveUninitialized: false,
+    cookie: {maxAge:2400*60*60, secure: false}
 }));
 app.use(passport.initialize());
 app.use(passport.session()); 
+passportConfig();
 
 const port = process.env.PORT || 8080;
 
@@ -30,10 +43,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({
     origin : ['http://localhost:3100','http://localhost:3000','http://localhost:4000'],
+    // origin : '*',
     credentials : true
 }));
 
-
+//userRouter
+app.use("/user",userRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
