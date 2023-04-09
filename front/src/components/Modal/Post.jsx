@@ -9,6 +9,7 @@ import { Context } from '../../utils/contextProvider';
 const Post = () => {
 
     const [title, setTitle] = useState('');
+    const [tags, setTags] = useState('');
     const [content, setContent] = useState('');
     const [text, setText] = useState('');
     const [type, setType] = useState('NOTICE');
@@ -45,7 +46,8 @@ const Post = () => {
             title,
             content: content,
             text,
-            type
+            type,
+            tags
         }
 
         axios.post(server,data,{withCredentials: true})
@@ -88,6 +90,11 @@ const Post = () => {
                 <FormControlLabel value="MESSAGE" control={<Radio />} label="MESSAGE" />    
             </RadioGroup>
             </FormControl>
+        </Box>
+        <Box sx={{ my: 1.5, px: 2.5 }}>
+            <Typography variant="h4" noWrap>
+              <TextField fullWidth name="tags" label="tags" onChange={(e)=>setTags(e.target.value)}/>
+            </Typography>             
         </Box>
         <Divider/>
         <Box sx={{ my: 4, px: 4, display: 'flex', justifyContent: 'center'}}>            

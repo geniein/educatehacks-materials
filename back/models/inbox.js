@@ -29,6 +29,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(1000),
             allowNull: true,
         },
+        tags: {
+            type: DataTypes.STRING(1000),
+            allowNull: true,
+            defaultValue: ""
+        },
         imageUrl: {
             type: DataTypes.STRING(300),
             allowNull: true,

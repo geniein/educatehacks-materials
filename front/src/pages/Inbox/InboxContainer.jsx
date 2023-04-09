@@ -27,12 +27,14 @@ import config from '../../utils/config';
 import InboxHead from './InboxHead';
 import inbox from '../../mock/inbox';
 import { Context } from '../../utils/contextProvider';
+import { dateFormat } from '../../utils/format';
 // import Modal from '../../components/Modal/Modal';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'title', label: 'Title', alignRight: false },
+  { id: 'tags', label: 'Tags', alignRight: false },
   { id: 'author', label: 'Author', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false },  
   { id: '' },
@@ -171,6 +173,14 @@ const InboxContainer = ({inboxTitle, inboxType, inboxState}) =>{
     setModalFlag({flag:"POST"});
   }
 
+  const tagsList = (values) =>{        
+    if(values === "" || values === undefined) return [];
+    const removeSpaces = values.replace(/\s/g,'');
+    const list = removeSpaces.split('#');
+    if(list[0]=="") list.splice(0,1);
+    return list;
+}
+
   return (
     <>     
       <Container>
@@ -178,8 +188,7 @@ const InboxContainer = ({inboxTitle, inboxType, inboxState}) =>{
           <Typography variant="h4" gutterBottom>
           {inboxTitle}
           </Typography>             
-        </Stack>
-        {/* <Modal openModal={showModal} onCloseModal={()=>setShowModal(false)}/> */}
+        </Stack>        
         <Card>                    
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -194,7 +203,7 @@ const InboxContainer = ({inboxTitle, inboxType, inboxState}) =>{
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, title, author, content, createdAt} = row;
+                    const { id, title, author, tags, createdAt} = row;
                     const selectedUser = selected.indexOf(title) !== -1;
 
                     return (
@@ -211,15 +220,29 @@ const InboxContainer = ({inboxTitle, inboxType, inboxState}) =>{
                             </Typography>
                           </Stack>
                         </TableCell>
-
+                        <TableCell align="left">                  
+                        {tagsList(tags).map((val,idx)=>{
+                            return(                
+                                <Typography key={idx} variant="subtile2" sx={{ 
+                                    color: 'text.secondary', 
+                                    backgroundColor: '#FCD12A',
+                                    borderRadius: 1,
+                                    alignItems: 'center',
+                                    paddingRight: '5px',
+                                    paddingLeft: '5px',
+                                    marginRight: '7px'
+                                    }}>
+                                    {val}
+                                </Typography>
+                            )
+                        })}                           
+                        </TableCell>
+                        
                         <TableCell align="left">{author}</TableCell>
 
-                        <TableCell align="left">{createdAt}</TableCell>
+                        <TableCell align="left">{dateFormat(createdAt)}</TableCell>
 
-                        <TableCell align="left">
-                          
-                        </TableCell>
-
+                        
                         {/* <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>                          
                             <MoreVertIcon/>

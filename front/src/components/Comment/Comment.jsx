@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import config from "../../utils/config";
+import { dateFormat } from "../../utils/format";
 
 
 const mock =[{
@@ -63,12 +64,17 @@ const Comment = ({inboxId}) =>{
             return (
             <div key={idx}>
             <Divider sx={{ borderStyle: 'solid', margin: '8px' }} /> 
-            <StyledComment>                
-                <Avatar/>
+            <Box sx={{display:'flex',justifyContent:'space-between', alignItems:'center'}}>
+                <StyledComment>                
+                    <Avatar/>
+                    <Typography sx={{ ml: 2 }} noWrap>
+                        {val.comment}
+                    </Typography>
+                </StyledComment>            
                 <Typography sx={{ ml: 2 }}>
-                    {val.comment}
+                    {dateFormat(val.createdAt)}
                 </Typography>
-            </StyledComment>            
+            </Box>            
             </div>
             )})
             }

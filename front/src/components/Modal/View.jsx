@@ -4,6 +4,7 @@ import config from '../../utils/config';
 import { Context } from '../../utils/contextProvider';
 import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 import Comment from '../Comment/Comment';
+import { dateFormat } from '../../utils/format';
 
 const View = ({viewId}) => {
     const [viewValue, setViewValue] = useState({});
@@ -45,25 +46,39 @@ const View = ({viewId}) => {
         })        
     };
 
+    const tagsList = (values) =>{        
+        if(values === "" || values === undefined) return [];
+        const removeSpaces = values.replace(/\s/g,'');
+        const list = removeSpaces.split('#');
+        if(list[0]=="") list.splice(0,1);
+        return list;
+    }
+
   return (
     <div style={{ "maxHeight": "calc(100vh - 200px)", "overflowY": "auto"}}>              
         <Box sx={{ my: 1.5, px: 2.5 }}>
         <Typography variant="h4" noWrap>
         {viewValue?.title}
         </Typography>
-        <Typography variant="subtile2" sx={{ 
-                color: 'text.secondary', 
-                backgroundColor: '#FCD12A',
-                borderRadius: 1,
-                alignItems: 'center',
-                paddingRight: '5px',
-                paddingLeft: '5px',
-                marginRight: '7px'
-                 }} noWrap>
-                tag
-            </Typography>
-        <Typography variant="subtile2" sx={{ color: 'text.secondary' }} noWrap>
-        {viewValue?.createdAt}
+        
+        {tagsList(viewValue.tags).map((val,idx)=>{
+            return(                
+                <Typography key={idx} variant="subtile2" sx={{ 
+                    color: 'text.secondary', 
+                    backgroundColor: '#FCD12A',
+                    borderRadius: 1,
+                    alignItems: 'center',
+                    paddingRight: '5px',
+                    paddingLeft: '5px',
+                    marginRight: '7px'
+                     }} noWrap>
+                    {val}
+                </Typography>
+            )
+        })}      
+       
+        <Typography variant="subtile1" sx={{ color: 'text.secondary' }} noWrap>
+        {dateFormat(viewValue?.createdAt)}
         </Typography>
         </Box>
         <Divider/>

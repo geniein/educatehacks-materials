@@ -45,7 +45,8 @@ router.post("/post", async(req, res)=>{
         content: req.body.content,
         text: req.body.text,
         type: req.body.type,
-        state: "UNCHECKED"
+        state: "UNCHECKED",
+        tags: req.body.tags
     }   
     const inboxPost = await models.Inbox.create(data);    
 
