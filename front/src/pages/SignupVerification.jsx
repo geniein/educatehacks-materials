@@ -25,8 +25,8 @@ const SignupVerification = () =>{
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Box
             component="img"
-            src="/assets/404.png"
-            sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
+            src="/assets/verify.png"
+            sx={{ height: 400, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
           <Typography variant="h4" paragraph>
             Verification Requested to the teacher!
