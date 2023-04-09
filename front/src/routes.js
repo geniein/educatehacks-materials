@@ -8,11 +8,16 @@ import User from './pages/User';
 import Login from './pages/Login';
 import Main from './pages/Main';
 import Inbox from './pages/Inbox';
+import SignupVerification from './pages/SignupVerification';
 const Router = ()=> {
   const routes = useRoutes([
     {
       path: 'login',
       element: <Login />,
+    },
+    {
+      path: 'verify',
+      element: <SignupVerification/>
     },
     {
       element: <MainLaoyout />,
@@ -21,7 +26,8 @@ const Router = ()=> {
         { path: '/user', element: <User /> },        
         { path: '/plan', element: <Main /> },
         { path: '/inbox', element: <Inbox /> },
-        { path: '404', element: <NotFound /> },                
+        { path: '/404', element: <NotFound /> },
+        { path: '/verify', element: <SignupVerification /> },
         { path: '*', element: <Navigate to="/inbox" /> },
       ],
     }  

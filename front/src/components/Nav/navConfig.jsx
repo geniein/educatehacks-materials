@@ -25,6 +25,10 @@ const navConfig = [
     icon: <LoginIcon/>,
   },
   {
+    title: 'verify',
+    path: '/verify',
+  },
+  {
     title: 'Not found',
     path: '/404',
   },

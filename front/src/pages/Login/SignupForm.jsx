@@ -42,7 +42,8 @@ const SignupForm = ({setForm}) => {
     .then((result)=>{
       console.log(result);
       if(result){
-        setShowMessage(`New account '${email}' is created`)
+        setShowMessage(`New account '${email}' is created`);
+        if(occupation=="PARENT") navigate("/verify");
       }else{
         setShowMessage(`Fail to create '${email}'`)
       }
@@ -101,7 +102,7 @@ const SignupForm = ({setForm}) => {
           onChange={(e)=>setPasswordConfirm(e.target.value)}
           ref={passwordRef}
         />
-        <FormControl fullWidth>
+      <FormControl fullWidth>
         <InputLabel id="occupation">Occupation</InputLabel>
         <Select
           labelId="occupation"
@@ -120,7 +121,7 @@ const SignupForm = ({setForm}) => {
         Sign Up
       </Button>
       <Button size="large" type="submit" variant="contained" onClick={onClickMain} sx={{mt:3}} color='secondary'>
-        Move to Main
+        Move to logi
       </Button>
       { showMessage &&  <Button size="large" variant="contained"
           sx={{       
