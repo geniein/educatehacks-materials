@@ -10,7 +10,7 @@ const navConfig = [
     icon: <AllInboxIcon/>,
   },
   {
-    title: 'user',
+    title: 'parent',
     path: '/user',
     icon: <AccountBoxIcon/>,
   },

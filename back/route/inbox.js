@@ -43,6 +43,7 @@ router.post("/post", async(req, res)=>{
         title: req.body.title,
         author,
         content: req.body.content,
+        text: req.body.text,
         type: req.body.type,
         state: "UNCHECKED"
     }   

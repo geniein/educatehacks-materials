@@ -81,7 +81,8 @@ router.post('/signup', async (req, res) => {
 
 //get user list
 router.get("/users", async (req, res)=>{
-    const userList = await models.Account.findAll();    
+    //select only PARENT
+    const userList = await models.Account.findAll({where:{occupation:"PARENT"}});    
     res.json(userList);
 })
 // user verified

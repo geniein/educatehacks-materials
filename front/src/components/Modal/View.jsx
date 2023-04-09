@@ -1,21 +1,21 @@
-import { Box, Divider, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import config from '../../utils/config';
 import { Context } from '../../utils/contextProvider';
 import { Box, Button, Divider, TextField, Typography } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
 
 const View = ({viewId}) => {
     const [viewValue, setViewValue] = useState({});
+    const [translateState, setTranslateState] = useState(false);
+    const [translateText, setTranslateText] = useState("");
     //useContext
-    const { inBoxListRender, setInBoxListRender } = useContext(Context);  
+    const { inBoxListRender, setInBoxListRender } = useContext(Context);      
 
-    useEffect(()=>{        
+    useEffect(()=>{
         const server = config.server+`/inbox/`
         axios.get(server+`${viewId}`)
         .then((res)=>{            
-            if(res.data){
+            if(res.data){                
                 setViewValue(res.data);
                 //update state
                 if(res.data.type=="MESSAGE"){
@@ -29,8 +29,23 @@ const View = ({viewId}) => {
         })
 
     },[]);
+
+    const onClickTranslate = (e)=>{
+        e.preventDefault();        
+        const server = config.server+'/google/translate';
+        const data = {
+            text: viewValue.content,
+            target: "ko"
+        }
+        axios.post(server,data,{withCredentials:true})
+        .then((res)=>{            
+            if(res.data) setTranslateText(res.data);
+            setTranslateState(!translateState)
+        })        
+    };
+
   return (
-    <>              
+    <div style={{ "maxHeight": "calc(100vh - 200px)", "overflowY": "auto"}}>              
         <Box sx={{ my: 1.5, px: 2.5 }}>
         <Typography variant="h4" noWrap>
         {viewValue?.title}
@@ -56,9 +71,9 @@ const View = ({viewId}) => {
             <div dangerouslySetInnerHTML ={{__html: viewValue.content}}>
 
             </div>
-        </Typography>
+        </Typography>        
         </Box>
-        <Divider sx={{paddingBottom: '16px'}}/>
+        {/* <Divider sx={{paddingBottom: '16px'}}/> */}
 
         <Box sx={{ my: 4, px: 0 }}>
             <Typography variant='container'>
@@ -66,8 +81,24 @@ const View = ({viewId}) => {
             </Typography>
         </Box>
 
-        <Divider sx={{ borderStyle: 'solid', marginBottom: '35px' }} /> 
+        <Divider sx={{ borderStyle: 'solid' }} /> 
+        {!translateState &&<Button variant='contained'
+            color="primary"
+            sx={{ mt:1.5, bgcolor: 'grey', marginRight:'auto' , marginBottom: '16px'}}
+            onClick={onClickTranslate}
+            >
+                translate
+            </Button>
+        }
+        {translateState &&<Box sx={{ my: 4, px: 0 }}>
+            <Typography variant='container'>
+                <div dangerouslySetInnerHTML ={{__html: translateText}}>
 
+                </div>
+            </Typography>
+            <Divider sx={{ borderStyle: 'solid', marginBottom: '16px' }} /> 
+        </Box>
+        }
         <Box>
             <Typography >
             Comments
@@ -80,7 +111,7 @@ const View = ({viewId}) => {
                 confirm
             </Button>
         </Box>   
-    </>
+    </div>
   );
 };
 
