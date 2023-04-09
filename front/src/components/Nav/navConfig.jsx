@@ -19,19 +19,19 @@ const navConfig = [
     path: '/plan',
     icon: <Note/>,
   },  
-  {
-    title: 'login',
-    path: '/login',
-    icon: <LoginIcon/>,
-  },
-  {
-    title: 'verify',
-    path: '/verify',
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-  },
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: <LoginIcon/>,
+  // },
+  // {
+  //   title: 'verify',
+  //   path: '/verify',
+  // },
+  // {
+  //   title: 'Not found',
+  //   path: '/404',
+  // },
 ];
 
 export default navConfig;

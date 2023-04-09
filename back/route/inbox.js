@@ -9,7 +9,9 @@ router.post("/getlist", async(req, res)=>{
     const state = req.body.state;
     const inboxList = await models.Inbox.findAll({where:{
         type,
-        state
+        state: {
+            [Op.or]: state
+        }
     }});
 
     res.json(inboxList)

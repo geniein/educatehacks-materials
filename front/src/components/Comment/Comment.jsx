@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import config from "../../utils/config";
 import { dateFormat } from "../../utils/format";
+import Gravatar from 'react-gravatar'
 
 
 const mock =[{
@@ -66,7 +67,8 @@ const Comment = ({inboxId}) =>{
             <Divider sx={{ borderStyle: 'solid', margin: '8px' }} /> 
             <Box sx={{display:'flex',justifyContent:'space-between', alignItems:'center'}}>
                 <StyledComment>                
-                    <Avatar/>
+                    {!val.author && <Avatar/>}
+                    {val.author && <Gravatar email={val.author} size={32}/>}
                     <Typography sx={{ ml: 2 }} noWrap>
                         {val.comment}
                     </Typography>
@@ -87,7 +89,7 @@ const Comment = ({inboxId}) =>{
             <Button 
             variant='contained' 
             color="primary" 
-            sx={{ mt:1.5, bgcolor: 'grey', marginRight:'auto'}}
+            sx={{ mt:1.5, marginRight:'auto'}}
             onClick={onClickConfirm}
             >
                 confirm

@@ -7,6 +7,7 @@ import NavSection from './NavSection';
 import Scrollbar from './Scrollbar';
 import useResponsive from '../../hooks/useResponsive';
 import { Context } from '../../utils/contextProvider';
+import Gravatar from 'react-gravatar';
 
 const NAV_WIDTH = 280;
 
@@ -38,8 +39,9 @@ const Navigation = ({ openNav, onCloseNav }) => {
     </Box>
     <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
-          <StyledAccount>
-            <Avatar src="" alt="" />
+          <StyledAccount>            
+            {!loggedUser.name && <Avatar src={user.photoURL} alt="photoURL" />}
+            {loggedUser.name &&<Gravatar email={loggedUser.name} size={32}/> }
 
             {loggedIn &&<Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>

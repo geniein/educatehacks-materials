@@ -20,7 +20,7 @@ const View = ({viewId}) => {
             if(res.data){                
                 setViewValue(res.data);
                 //update state
-                if(res.data.type=="MESSAGE"){
+                if(res.data){
                     axios.post(server+`state/${viewId}`,{state:"CHECKED"},{withCredentials:true})
                     .then((res)=>{
                     console.log(res);
@@ -100,7 +100,7 @@ const View = ({viewId}) => {
         <Divider sx={{ borderStyle: 'solid' }} /> 
         {!translateState &&<Button variant='contained'
             color="primary"
-            sx={{ mt:1.5, bgcolor: 'grey', marginRight:'auto' , marginBottom: '16px'}}
+            sx={{ mt:1.5, marginRight:'auto' , marginBottom: '16px'}}
             onClick={onClickTranslate}
             >
                 translate
@@ -111,6 +111,9 @@ const View = ({viewId}) => {
                 <div dangerouslySetInnerHTML ={{__html: translateText}}>
 
                 </div>
+                <Button size='small'>
+                    translated
+                </Button>
             </Typography>
             <Divider sx={{ borderStyle: 'solid', marginBottom: '16px' }} /> 
         </Box>

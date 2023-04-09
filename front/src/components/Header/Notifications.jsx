@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   List,
@@ -16,60 +16,14 @@ import {
   ListItemButton,
 } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import axios from 'axios';
+import config from '../../utils/config';
 
+const Notifications = () => {    
 
-const NOTIFICATIONS = [
-  {
-    id: 1,
-    title: 'Your order is placed',
-    description: 'waiting for shipping',
-    avatar: null,
-    type: 'order_placed',
-    createdAt: new Date(),
-    isUnRead: true,
-  },
-  {
-    id: 2,
-    title: 'new world',
-    description: 'answered to your comment on the Minimal',
-    avatar: '/assets/images/avatars/avatar_2.jpg',
-    type: 'friend_interactive',
-    createdAt: new Date(),
-    isUnRead: true,
-  },
-  {
-    id: 3,
-    title: 'You have new message',
-    description: '5 unread messages',
-    avatar: null,
-    type: 'chat_message',
-    createdAt: new Date(),
-    isUnRead: false,
-  },
-  {
-    id: 4,
-    title: 'You have new mail',
-    description: 'sent from Guido Padberg',
-    avatar: null,
-    type: 'mail',
-    createdAt: new Date(),
-    isUnRead: false,
-  },
-  {
-    id: 5,
-    title: 'Delivery processing',
-    description: 'Your order is being shipped',
-    avatar: null,
-    type: 'order_shipped',
-    createdAt: new Date(),
-    isUnRead: false,
-  },
-];
+  const [notifications, setNotifications] = useState([]);
 
-const Notifications = () => {
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
-
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const totalUnRead = notifications.filter((item) => item.state === "UNCHECKED").length;
 
   const [open, setOpen] = useState(null);
 
@@ -89,6 +43,20 @@ const Notifications = () => {
       }))
     );
   };
+
+  const getNotiList = () =>{    
+    const server = config.server+'/inbox/getlist'    
+    axios.get(server,{withCredentials:true})
+    .then((res)=>{
+      if(res.data) setNotifications(res.data);
+    })
+  }
+  // hooks
+  useEffect(()=>{
+    getNotiList();    
+    let si = setInterval(getNotiList,2000);
+    return () => clearInterval(si);
+  },[])
 
   return (
     <>
@@ -139,7 +107,7 @@ const Notifications = () => {
               </ListSubheader>
             }
           >
-            {notifications.slice(0, 2).map((notification) => (
+            {notifications.filter((item) => item.state === "UNCHECKED").map((notification) => (
               <NotificationItem key={notification.id} notification={notification} />
             ))}
           </List>
@@ -152,7 +120,7 @@ const Notifications = () => {
               </ListSubheader>
             }
           >
-            {notifications.slice(2, 5).map((notification) => (
+            {notifications.filter((item) => item.state === "CHECKED").map((notification) => (
               <NotificationItem key={notification.id} notification={notification} />
             ))}
           </List>
@@ -179,7 +147,7 @@ const NotificationItem = ({ notification }) =>{
         py: 1.5,
         px: 2.5,
         mt: '1px',
-        ...(notification.isUnRead && {
+        ...(notification.state ==="UNCHECKED" && {
           bgcolor: 'action.selected',
         }),
       }}
@@ -216,31 +184,7 @@ const renderContent = (notification) => {
       </Typography>
     </Typography>
   );
-
-  if (notification.type === 'order_placed') {
-    return {
-      avatar: null,
-      title,
-    };
-  }
-  if (notification.type === 'order_shipped') {
-    return {
-      avatar: null,
-      title,
-    };
-  }
-  if (notification.type === 'mail') {
-    return {
-      avatar: null,
-      title,
-    };
-  }
-  if (notification.type === 'chat_message') {
-    return {
-      avatar: null,
-      title,
-    };
-  }
+ 
   return {
     avatar:  null,
     title,

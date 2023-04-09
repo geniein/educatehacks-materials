@@ -5,6 +5,7 @@ import axios from 'axios';
 import config from '../../utils/config';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../../utils/contextProvider';
+import Gravatar from 'react-gravatar'
 
 const MENU_OPTIONS = [
   {
@@ -68,7 +69,9 @@ const Profile = () => {
           }),
         }}
       >
-        <Avatar src={user.photoURL} alt="photoURL" />
+        {/* <Avatar src={user.photoURL} alt="photoURL" /> */}
+        {!loggedUser.name && <Avatar src={user.photoURL} alt="photoURL" />}
+        {loggedUser.name &&<Gravatar email={loggedUser.name} size={32}/> }
       </IconButton>
 
       <Popover

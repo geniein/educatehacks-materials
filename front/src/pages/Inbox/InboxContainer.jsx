@@ -137,8 +137,7 @@ const InboxContainer = ({inboxTitle, inboxType, inboxState}) =>{
     setFilterName(event.target.value);
   };
   //hooks
-  useEffect(()=>{
-    console.log(inboxTitle);
+  useEffect(()=>{    
     const server = config.server+"/inbox/getlist";
     const data = {
         type: inboxType,
@@ -183,8 +182,8 @@ const InboxContainer = ({inboxTitle, inboxType, inboxState}) =>{
 
   return (
     <>     
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+      <Container sx={{marginBottom: '24px'}}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
           <Typography variant="h4" gutterBottom>
           {inboxTitle}
           </Typography>             

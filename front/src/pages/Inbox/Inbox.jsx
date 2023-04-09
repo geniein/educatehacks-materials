@@ -180,9 +180,9 @@ const Inbox = () =>{
           </Button> 
             }        
         </Stack>
-      <InboxContainer inboxTitle={"NOTICE"} inboxType={"NOTICE"} inboxState={"UNCHECKED"}/>
-      <InboxContainer inboxTitle={"Not confirmed yet"} inboxType={"MESSAGE"} inboxState={"UNCHECKED"}/>
-      <InboxContainer inboxTitle={"Confirmed"} inboxType={"MESSAGE"} inboxState={"CHECKED"}/>
+      <InboxContainer inboxTitle={"NOTICE"} inboxType={"NOTICE"} inboxState={["UNCHECKED","CHECKED"]}/>
+      <InboxContainer inboxTitle={"Not confirmed yet"} inboxType={"MESSAGE"} inboxState={["UNCHECKED"]}/>
+      <InboxContainer inboxTitle={"Confirmed"} inboxType={"MESSAGE"} inboxState={["CHECKED"]}/>
     </>
   );
 }
