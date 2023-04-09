@@ -16,6 +16,7 @@ const passportConfig = require('./passport');
 const userRouter = require("./route/user");
 const inboxRouter = require("./route/inbox");
 const googleRouter = require("./route/googleapi");
+const commentRouter = require("./route/comment");
 
 //upload
 // const upload = multer({
@@ -54,6 +55,7 @@ app.use(cors({
 app.use("/user",userRouter);
 app.use("/inbox",inboxRouter);
 app.use("/google",googleRouter);
+app.use("/comment",commentRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import config from '../../utils/config';
 import { Context } from '../../utils/contextProvider';
 import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+import Comment from '../Comment/Comment';
 
 const View = ({viewId}) => {
     const [viewValue, setViewValue] = useState({});
@@ -99,18 +100,7 @@ const View = ({viewId}) => {
             <Divider sx={{ borderStyle: 'solid', marginBottom: '16px' }} /> 
         </Box>
         }
-        <Box>
-            <Typography >
-            Comments
-            </Typography>
-            <TextField label="Leave a comment" fullWidth
-                        sx = {{ height: 'medium',
-                                marginTop: '5px'}}
-                         />
-            <Button variant='contained' color="primary" sx={{ mt:1.5, bgcolor: 'grey', marginRight:'auto'}}>
-                confirm
-            </Button>
-        </Box>   
+        <Comment inboxId={viewId}/>   
     </div>
   );
 };
