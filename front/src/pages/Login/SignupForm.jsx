@@ -42,7 +42,7 @@ const SignupForm = ({setForm}) => {
     .then((result)=>{
       console.log(result);
       if(result){
-        setShowMessage(`New account '${email}' is created Go to LOG IN`);
+        setShowMessage(`New account '${email}' is created`);
         if(occupation=="PARENT") navigate("/verify");
       }else{
         setShowMessage(`Fail to create '${email}'`)

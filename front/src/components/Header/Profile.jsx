@@ -26,7 +26,7 @@ const Profile = () => {
   //hooks
   const [user, setUser] = useState("");
   const navigate = useNavigate();
-  const { loggedUser, loggedIn, setLoggedUser, setLoggedIn } = useContext(Context);  
+  const { loggedUser, loggedIn, setLoggedUser, setLoggedIn, inBoxListRender, setInBoxListRender } = useContext(Context);  
   useEffect(()=>{
   },[loggedUser, loggedIn])
 
@@ -47,6 +47,7 @@ const Profile = () => {
     .then((res)=>{
       setLoggedUser({});
       setLoggedIn(false);
+      setInBoxListRender(!inBoxListRender);
       navigate("/inbox")
     })
   }

@@ -37,7 +37,7 @@ const LoginForm = ({setForm}) => {
           setLoggedIn(true);
           navigate('/inbox', { replace: true });
         }else {
-          alert("Not verified");
+          navigate("/verify")
         }        
       }
     })

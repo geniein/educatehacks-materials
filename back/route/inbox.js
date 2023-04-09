@@ -5,6 +5,10 @@ const { Op } = require('sequelize');
 
 
 router.post("/getlist", async(req, res)=>{    
+    if(!req.user){
+        res.json([]);
+        return
+    }
     const type = req.body.type;
     const state = req.body.state;
     const inboxList = await models.Inbox.findAll({where:{
