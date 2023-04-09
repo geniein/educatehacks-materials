@@ -134,8 +134,12 @@ const SignupForm = ({setForm}) => {
           onClick={onClickMain}
           >
             <Typography>{showMessage}</Typography>            
-      </Button>
+      </Button>      
     }
+      <Typography variant="body2" sx={{ mb: 5, mt: 2 }}>
+        Already have an account? {''}
+        <Link variant="subtitle2" onClick={()=>setForm("login")}>Log in</Link>
+      </Typography>
     </>
   );
 }
