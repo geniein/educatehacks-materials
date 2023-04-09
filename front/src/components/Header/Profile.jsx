@@ -47,6 +47,7 @@ const Profile = () => {
     .then((res)=>{
       setLoggedUser({});
       setLoggedIn(false);
+      navigate("/inbox")
     })
   }
 

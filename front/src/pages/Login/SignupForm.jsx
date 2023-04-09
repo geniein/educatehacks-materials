@@ -42,7 +42,7 @@ const SignupForm = ({setForm}) => {
     .then((result)=>{
       console.log(result);
       if(result){
-        setShowMessage(`New account '${email}' is created`);
+        setShowMessage(`New account '${email}' is created Go to LOG IN`);
         if(occupation=="PARENT") navigate("/verify");
       }else{
         setShowMessage(`Fail to create '${email}'`)
@@ -120,20 +120,20 @@ const SignupForm = ({setForm}) => {
       <Button size="large" type="submit" variant="contained" onClick={onClickSignup} sx={{mt:3}}>
         Sign Up
       </Button>
-      <Button size="large" type="submit" variant="contained" onClick={onClickMain} sx={{mt:3}} color='secondary'>
-        Move to logi
-      </Button>
-      { showMessage &&  <Button size="large" variant="contained"
-          sx={{       
-            backgroundColor: 'primary.dark',
+      {/* <Button size="large" type="submit" variant="contained" onClick={onClickMain} sx={{mt:3}} color='secondary'>
+        Move to login
+      </Button> */}
+      { showMessage &&  <Button size="large" variant="contained" color='secondary'
+          sx={{                   
             '&:hover': {
-              backgroundColor: 'primary.main',
+              backgroundColor: 'secondary.main',
               opacity: [0.9, 0.8, 0.7],
             },
             mt: 3
           }}
+          onClick={onClickMain}
           >
-            <Typography>{showMessage}</Typography>
+            <Typography>{showMessage}</Typography>            
       </Button>
     }
     </>
